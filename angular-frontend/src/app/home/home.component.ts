@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  constructor(private homeService: HomeService) {}
+
+  clicked() {
+    this.homeService.getAllGames();
+  }
 }
