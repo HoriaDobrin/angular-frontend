@@ -13,4 +13,8 @@ export class HomeComponent {
   clicked() {
     this.homeService.getAllGames();
   }
+
+  clickBoss() {
+    this.homeService.getFirstFiveGames();
+  }
 }
