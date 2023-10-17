@@ -9,6 +9,8 @@ import { AddGameComponent } from './game/add-game/add-game.component';
 import { HomeModule } from './home/home.module';
 import { GameModule } from './game/game.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     GameModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

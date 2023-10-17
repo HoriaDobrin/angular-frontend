@@ -25,48 +25,15 @@ export class GameService {
     });
   }
 
-  // getFirstFiveGames(): Game[] {
-  //   let newArr: Game[];
-  //   this.http.get(apiBaseUrl + '/game').subscribe({
-  //     next: (data) => {
-  //       if (Array.isArray(data)) {
-  //         for (let index = 0; index < 5; index++) {
-  //           console.log(index);
-  //           console.log(data[index]);
-  //           newArr.push(data[index]);
-  //           return newArr;
-  //         }
-  //       } else {
-  //         throw new Error('Data not good bruv');
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error(error);
-  //       throw new Error('La misto am pus asta');
-  //     },
-  //   });
-  // }
-
   async getFirstFiveGames(): Promise<Game[]> {
     try {
       const data = await firstValueFrom(this.http.get(apiBaseUrl + '/game'));
-      // console.log(data);
-      // console.log(Array.isArray(data));
-      // console.log(typeof data);
 
       if (Array.isArray(data)) {
         return data.slice(0, 5) as Game[];
       } else {
         return [];
       }
-
-      // const data = await this.http.get(apiBaseUrl + '/game').toPromise();
-
-      // if (Array.isArray(data)) {
-      //   return data.slice(0, 5) as Game[];
-      // } else {
-      //   return [];
-      // }
     } catch (error) {
       console.error(error);
       throw new Error('A apărut o eroare.');
@@ -75,6 +42,25 @@ export class GameService {
 
   async deleteGame(cardData: Game) {
     console.log(apiBaseUrl + '/game/' + cardData.id);
-    this.http.delete(apiBaseUrl + '/game/' + cardData.id);
+    this.http.delete(apiBaseUrl + '/game/' + cardData.id).subscribe({
+      next: (data) => {
+        // console.log('Data' + data);
+        window.location.reload();
+      },
+      error: (error) => {
+        alert('Please log in to delete a game');
+      },
+    });
   }
+
+  // async addGame(cardData: Game) {
+  //   this.http.post(apiBaseUrl + '/game', cardData).subscribe({
+  //     next: (data) => {
+  //       console.log('A mers sefule');
+  //     },
+  //     error: (error) => {
+  //       alert('Please log in to add a cart');
+  //     },
+  //   });
+  // }
 }
