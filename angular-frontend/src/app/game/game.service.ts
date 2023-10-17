@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { apiBaseUrl } from 'config';
 import { Game } from '../models/game.model';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getAllGames() {
     this.http.get(apiBaseUrl + '/game').subscribe({
@@ -53,14 +54,17 @@ export class GameService {
     });
   }
 
-  // async addGame(cardData: Game) {
-  //   this.http.post(apiBaseUrl + '/game', cardData).subscribe({
-  //     next: (data) => {
-  //       console.log('A mers sefule');
-  //     },
-  //     error: (error) => {
-  //       alert('Please log in to add a cart');
-  //     },
-  //   });
-  // }
+  async addGame(cardData: Game) {
+    this.http.post(apiBaseUrl + '/game', cardData).subscribe({
+      next: (data) => {
+        console.log('A mers sefule');
+        window.location.reload();
+      },
+      error: (error) => {
+        console.log(error);
+        alert('Please log in to add a cart');
+      },
+    });
+    this.router.navigate(['/home']);
+  }
 }
