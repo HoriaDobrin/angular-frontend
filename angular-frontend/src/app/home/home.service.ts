@@ -11,7 +11,7 @@ export class HomeService {
   getAllGames() {
     this.http.get(apiBaseUrl + '/game').subscribe({
       next: (data) => {
-        if(Array.isArray(data)){
+        if (Array.isArray(data)) {
           console.log(typeof data);
           console.log(data.length);
         }
@@ -25,8 +25,8 @@ export class HomeService {
 
   getFirstFiveGames() {
     this.http.get(apiBaseUrl + '/game').subscribe({
-      next: (data)  => {
-        if(Array.isArray(data)){
+      next: (data) => {
+        if (Array.isArray(data)) {
           for (let index = 0; index < 5; index++) {
             console.log(index);
             console.log(data[index]);
@@ -35,8 +35,18 @@ export class HomeService {
       },
       error: (error) => {
         console.error(error);
-      }
-    })
+      },
+    });
   }
 
+  exportCSV() {
+    this.http.get(apiBaseUrl + '/game/export').subscribe({
+      next: (data) => {
+        console.log('A mers exportul varule');
+      },
+      error: (error) => {
+        alert('You are unathorized boss');
+      },
+    });
+  }
 }

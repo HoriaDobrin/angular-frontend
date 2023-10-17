@@ -25,4 +25,8 @@ export class HomeComponent {
   addGame() {
     this.router.navigate(['/add-game']);
   }
+
+  exportCSV() {
+    this.homeService.exportCSV();
+  }
 }
