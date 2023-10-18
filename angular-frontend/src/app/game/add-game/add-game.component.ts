@@ -11,7 +11,10 @@ import { GameService } from '../game.service';
 export class AddGameComponent {
   gameForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private gameService: GameService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private gameService: GameService
+  ) {
     this.gameForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       genre: ['', Validators.required],
@@ -19,11 +22,10 @@ export class AddGameComponent {
     });
   }
 
-  submit() { 
+  submit() {
     if (this.gameForm.valid) {
       const newGame: Game = this.gameForm.value as Game;
       this.gameService.addGame(newGame);
-      // Trimiteți newGame către serviciul dvs. pentru a adăuga jocul în backend.
       console.log('Jocul de adăugat:', newGame);
     }
   }

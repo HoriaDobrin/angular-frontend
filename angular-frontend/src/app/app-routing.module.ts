@@ -6,11 +6,21 @@ import { GameCardComponent } from './game/game-card/game-card.component';
 import { AddGameComponent } from './game/add-game/add-game.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'games', component: GameCardComponent },
-  { path: 'add-game', component: AddGameComponent },
+  // { path: 'test', component: HomeComponent },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: '',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'games',
+    loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
+  },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

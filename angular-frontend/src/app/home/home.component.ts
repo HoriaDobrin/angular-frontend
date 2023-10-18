@@ -8,7 +8,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  constructor(private homeService: HomeService, private router: Router) {}
+  isAuthenticated: boolean = false;
+
+  constructor(private homeService: HomeService, private router: Router) {
+    this.checkAuthentication();
+  }
+
+  checkAuthentication() {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      this.isAuthenticated = true;
+    } else {
+      this.isAuthenticated = false;
+    }
+  }
 
   clicked() {
     this.homeService.getAllGames();
