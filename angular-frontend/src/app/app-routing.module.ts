@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { GameCardComponent } from './game/game-card/game-card.component';
-import { AddGameComponent } from './game/add-game/add-game.component';
+import { AuthGuardService } from './guards/auth.guard';
 
 const routes: Routes = [
   // { path: 'test', component: HomeComponent },
@@ -19,6 +16,7 @@ const routes: Routes = [
   {
     path: 'games',
     loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
+    canActivate: [AuthGuardService],
   },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];

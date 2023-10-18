@@ -2,11 +2,9 @@
   <mat-card *ngFor="let cardData of cardDataArray">
     <mat-card-header>
       <mat-card-title>{{ cardData.name }}</mat-card-title>
-      <mat-card-subtitle>{{ cardData.genre }}</mat-card-subtitle>
+      <mat-card-subtitle>Genre: {{ cardData.genre }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      {{ cardData.price }}
-    </mat-card-content>
+    <mat-card-content>Price : {{ cardData.price }} </mat-card-content>
     <mat-card-actions>
       <button mat-icon-button (click)="deleteCard(cardData)">
         <mat-icon>delete</mat-icon>

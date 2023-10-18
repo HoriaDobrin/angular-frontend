@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Game } from 'src/app/models/game.model';
 import { GameService } from '../game.service';
 
@@ -9,18 +9,18 @@ import { GameService } from '../game.service';
 })
 export class GameCardComponent {
   constructor(private gameService: GameService) {
-    this.loadFirstFiveGames();
+    // this.loadFirstFiveGames();
   }
   // cardDataArray : Game[] = this.gameService.getFirstFiveGames();
-  cardDataArray: Game[] = []; 
+  @Input() cardDataArray: Game[] = []; 
 
-  async loadFirstFiveGames() {
-    try {
-      this.cardDataArray = await this.gameService.getFirstFiveGames();
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async loadFirstFiveGames() {
+  //   try {
+  //     this.cardDataArray = await this.gameService.getFirstFiveGames();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   deleteCard(cardData: Game) {
     this.gameService.deleteGame(cardData);

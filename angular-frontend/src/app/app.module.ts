@@ -8,6 +8,7 @@ import { GameModule } from './game/game.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
+import { AuthGuardService } from './guards/auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
       useClass: AuthInterceptor,
       multi: true,
     },
+    AuthGuardService,
   ],
   bootstrap: [AppComponent],
 })

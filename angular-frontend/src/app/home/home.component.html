@@ -1,6 +1,68 @@
-<button (click)="clicked()">Get all games</button>
-<button (click)="clickBoss()">Get first 5 games</button>
-<button (click)="logIn()">Log in boss</button>
-<button *ngIf="isAuthenticated" (click)="addGame()">Adauga un Joc</button>
-<button (click)="exportCSV()">Export CSV</button>
-<app-game-card></app-game-card>
+<div class="buttons">
+  <!-- <button (click)="clicked()">Get all games</button> -->
+  <!-- <button (click)="clickBoss()">Get first 5 games</button> -->
+  <button (click)="logIn()">Log in boss</button>
+  <button *ngIf="isAuthenticated" (click)="addGame()">Adauga un Joc</button>
+  <button (click)="exportCSV()">Export CSV</button>
+  <button (click)="goToGames()">Go to Games page</button>
+</div>
+
+<br />
+<!-- FORM -->
+
+<div class="container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <!-- <label for="search">Search:</label> -->
+    <input
+      type="text"
+      id="search"
+      name="search"
+      placeholder="Search"
+      #filter
+      formControlName="search"
+    />
+    <button class="primary" type="button" (click)="filterResults(filter.value)">
+      Search Bossule
+    </button>
+    <br /><br />
+
+    <!-- <h4>Basic mat-select</h4> -->
+    <mat-form-field>
+      <mat-label>Genre</mat-label>
+      <mat-select
+        [(value)]="selectedGenre"
+        (valueChange)="filterByGenre(selectedGenre)"
+      >
+        <mat-option *ngFor="let genre of filteredGenres" [value]="genre">
+          {{ genre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <label for="slider">Price:</label>
+    <br />
+    <mat-slider
+      formControlName="sliderValue"
+      [min]="minPrice"
+      [max]="maxPrice"
+      step="1"
+      discrete
+      [displayWith]="formatLabel"
+    >
+      <input [value]="minPrice" matSliderStartThumb />
+      <input [value]="maxPrice" matSliderEndThumb />
+    </mat-slider>
+    <br />
+    <button>Subnmitttttttt</button>
+
+    <button class="primary" type="button" (click)="ascendingSort()">
+      Sort Crescator
+    </button>
+    <button class="primary" type="button" (click)="descendingSort()">
+      Sort Descrescator
+    </button>
+  </form>
+</div>
+
+<!-- FORM -->
+<app-game-card [cardDataArray]="firstFiveGames"></app-game-card>

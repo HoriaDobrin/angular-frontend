@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiBaseUrl } from 'config';
+import { Game } from '../models/game.model';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,35 +10,24 @@ import { apiBaseUrl } from 'config';
 export class HomeService {
   constructor(private http: HttpClient) {}
 
-  getAllGames() {
-    this.http.get(apiBaseUrl + '/game').subscribe({
-      next: (data) => {
-        if (Array.isArray(data)) {
-          console.log(typeof data);
-          console.log(data.length);
-        }
-        console.log(data);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+  async getAllGames(): Promise<Game[]> {
+    const games =  await firstValueFrom(this.http.get(apiBaseUrl + '/game')) as Game[];
+    return games;
   }
 
-  getFirstFiveGames() {
-    this.http.get(apiBaseUrl + '/game').subscribe({
-      next: (data) => {
-        if (Array.isArray(data)) {
-          for (let index = 0; index < 5; index++) {
-            console.log(index);
-            console.log(data[index]);
-          }
-        }
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+  async getFirstFiveGames(): Promise<Game[]> {
+    try {
+      const data = await firstValueFrom(this.http.get(apiBaseUrl + '/game'));
+
+      if (Array.isArray(data)) {
+        return data.slice(0, 5) as Game[];
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error('A apărut o eroare.');
+    }
   }
 
   exportCSV() {
