@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { Router } from '@angular/router';
 import { Game } from '../models/game.model';
@@ -9,34 +9,36 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
-  isAuthenticated: boolean = false;
-
-  minPrice: number = 0;
+export class HomeComponent implements OnInit {
+  isLoaded: boolean = false;
+  minPrice: number = 10000000;
   maxPrice: number = 0;
+  searchInput: string = '';
   filteredGenres: string[] = [];
 
-  searchForm: FormGroup;
-
-  // searchForm : FormGroup;
+  searchForm: FormGroup | undefined;
 
   selectedGenre: string = '';
   allGames: Game[] = [];
-  firstFiveGames: Game[] = [];
-
-  filteredGames: Game[] = [];
+  currentGames: Game[] = [];
 
   constructor(
     private homeService: HomeService,
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-    this.checkAuthentication();
     this.loadFormConfig();
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.loadFormConfig();
 
     this.searchForm = this.formBuilder.group({
-      sliderValue: new FormControl([this.minPrice, this.maxPrice]),
+      startThumb: new FormControl(this.minPrice),
+      endThumb: new FormControl<number>(this.maxPrice),
     });
+
+    this.isLoaded = true;
   }
 
   formatLabel(value: number): string {
@@ -46,23 +48,14 @@ export class HomeComponent {
     return `${value}`;
   }
 
-  // async reloadGames(newGameArray: Game[]) {
-  //   if (newGameArray) {
-  //     this.firstFiveGames = newGameArray;
-  //   } else {
-  //     alert('New array is empty');
-  //   }
-  // }
-
   async loadFormConfig() {
     this.allGames = await this.homeService.getAllGames();
-    console.log(this.allGames);
 
-    this.firstFiveGames = await this.homeService.getFirstFiveGames();
-    console.log(this.firstFiveGames);
+    this.currentGames = await this.homeService.getFirstFiveGames();
 
     this.setMinMaxSlider(this.allGames);
-    this.filteredGenres = this.getUniqueGenres(this.allGames); // aici se initializeaza pentru dropdown
+
+    this.filteredGenres = this.getUniqueGenres(this.allGames);
   }
 
   getUniqueGenres(gamesArray: Game[]): string[] {
@@ -84,97 +77,81 @@ export class HomeComponent {
     }
   }
 
-  checkAuthentication() {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      this.isAuthenticated = true;
-    } else {
-      this.isAuthenticated = false;
-    }
-  }
-
   filterByGenre(genre: string) {
-    console.log(genre);
-    console.log(this.selectedGenre);
-    if (genre && this.allGames) {
-      const filteredByGenre = this.allGames.filter(
-        (game) => game.genre === genre
-      );
+    let filteredByGenre: Game[];
 
-      if (filteredByGenre.length > 5) {
-        this.filteredGames = filteredByGenre.splice(0, 5);
-      } else {
-        this.filteredGames = filteredByGenre;
-      }
+    if (this.searchInput.length > 0) {
+      filteredByGenre = this.allGames.filter((game) =>
+        game.name.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+      filteredByGenre = filteredByGenre.filter((game) => game.genre === genre);
+    } else {
+      filteredByGenre = this.allGames.filter((game) => game.genre === genre);
     }
-    this.firstFiveGames = this.filteredGames;
+
+    this.currentGames = filteredByGenre;
+
+    return this.currentGames;
   }
 
   filterResults(text: string) {
+    this.searchInput = text;
+    let filterResults: Game[] = [];
     if (text) {
-      console.log(text, this.filteredGames, this.selectedGenre);
-
-      let filteredGenre: Game[] = [];
-
       if (this.selectedGenre) {
-        filteredGenre = this.filteredGames;
-        filteredGenre = this.filteredGames.filter((game) =>
+        filterResults = this.allGames.filter(
+          (game) => game.genre === this.selectedGenre
+        );
+        filterResults = filterResults.filter((game) =>
           game.name.toLowerCase().includes(text.toLowerCase())
         );
       } else {
-        filteredGenre = this.allGames.filter((game) =>
+        filterResults = this.allGames.filter((game) =>
           game.name.toLowerCase().includes(text.toLowerCase())
         );
       }
-      console.log('AFTER FILTERING: ');
-
-      console.log(this.filteredGames);
-
-      this.firstFiveGames = filteredGenre;
-    } else if (this.selectedGenre) {
-      this.filterByGenre(this.selectedGenre);
+      this.currentGames = filterResults;
     } else {
-      alert('Wtfffffffff');
-      // window.location.reload();
+      alert('Please insert a search input');
     }
   }
 
-  onSubmit() {
-    console.log(this.searchForm.value);
+  onSliderChange() {
+    const minVal = this.searchForm!.value.startThumb;
+    const maxVal = this.searchForm!.value.endThumb;
+
+    let copyGames: Game[] = this.allGames;
+
+    if (this.searchInput.length > 0 && this.selectedGenre) {
+      copyGames = this.allGames.filter(
+        (game) => game.genre === this.selectedGenre
+      );
+      copyGames = copyGames.filter((game) =>
+        game.name.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+    } else if (this.searchInput.length > 0) {
+      copyGames = copyGames.filter((game) =>
+        game.name.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+    } else if (this.selectedGenre) {
+      copyGames = this.allGames.filter(
+        (game) => game.genre === this.selectedGenre
+      );
+    }
+
+    copyGames = copyGames.filter((game) => {
+      return game.price >= minVal && game.price <= maxVal;
+    });
+
+    this.currentGames = copyGames;
   }
-
-  // ascendPrice(a: Game, b: Game) {
-  //   return a.price - b.price;
-  // }
-  // descendPrice(a: Game, b: Game) {
-  //   return b.price - a.price;
-  // }
-
   ascendingSort() {
-    this.firstFiveGames.sort((a: Game, b: Game) => a.price - b.price);
+    this.currentGames.sort((a: Game, b: Game) => a.price - b.price);
   }
 
   descendingSort() {
-    this.firstFiveGames.sort((a: Game, b: Game) => b.price - a.price);
+    this.currentGames.sort((a: Game, b: Game) => b.price - a.price);
   }
-
-  onSliderChange() {
-    const slider = this.searchForm.value.sliderValue;
-    console.log(slider);
-    const startValue = slider[0];
-    const endValue = slider[1];
-
-    console.log(startValue);
-    console.log(endValue);
-  }
-
-  // clicked() {
-  //   this.homeService.getAllGames();
-  // }
-
-  // clickBoss() {
-  //   this.homeService.getFirstFiveGames();
-  // }
 
   logIn() {
     this.router.navigate(['/login']);
@@ -189,6 +166,18 @@ export class HomeComponent {
   }
 
   goToGames() {
-    this.router.navigate(['/games']);
+    this.router.navigate(['/games/add-game']);
   }
+
+  exportFilteredCSV() {
+    this.homeService.exportFilteredCSV(this.currentGames);
+  }
+
+  resetFilter() {
+    this.searchInput = '';
+    this.selectedGenre = '';
+    this.currentGames = this.allGames;
+  }
+
+  onSubmit() {}
 }

@@ -1,7 +1,63 @@
-.card-container {
+/* .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 20px;
   }
-  
+   */
+
+  /* game-card.component.css */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+mat-card {
+  width: 300px; /* Lățimea cardului */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+mat-card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+mat-card-subtitle {
+  font-size: 16px;
+  color: #777;
+}
+
+mat-card-content {
+  font-size: 18px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-icon-button {
+  background-color: transparent;
+  color: #007bff;
+}
+
+/* Stilizare pentru butonul de ștergere */
+mat-icon-button.delete-button {
+  color: #ff5722; /* Roșu pentru butonul de ștergere */
+}
+
+/* Stilizare pentru butonul de adăugare */
+mat-icon-button.add-button {
+  color: #4caf50;
+}

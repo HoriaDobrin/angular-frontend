@@ -1,0 +1,53 @@
+/* Stilizare pentru container */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  /* Stilizare pentru titlul formularului */
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Stilizare pentru grupurile de câmpuri */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Stilizare pentru etichetele câmpurilor */
+  label {
+    font-weight: bold;
+    display: block;
+  }
+  
+  /* Stilizare pentru input-uri */
+  .form-control {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+  }
+  
+  /* Stilizare pentru butonul de adăugare */
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Stilizare pentru butonul de adăugare la hover */
+  .btn-primary:hover {
+    background-color: #0056b3; /* Culoare mai închisă la hover */
+  }
+  

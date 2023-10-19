@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/Interceptors/auth.interceptor';
 import { AuthGuardService } from './guards/auth.guard';
+import { TokenResolver } from 'src/resolvers/auth.resolver';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { AuthGuardService } from './guards/auth.guard';
       multi: true,
     },
     AuthGuardService,
+    TokenResolver,
   ],
   bootstrap: [AppComponent],
 })

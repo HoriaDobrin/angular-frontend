@@ -1,6 +1,7 @@
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './guards/auth.guard';
+import { TokenResolver } from 'src/resolvers/auth.resolver';
 
 const routes: Routes = [
   // { path: 'test', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: 'games',
     loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
     canActivate: [AuthGuardService],
+    // resolve: [TokenResolver],
   },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];

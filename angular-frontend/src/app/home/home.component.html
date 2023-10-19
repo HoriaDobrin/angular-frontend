@@ -1,32 +1,14 @@
-<div class="buttons">
-  <!-- <button (click)="clicked()">Get all games</button> -->
-  <!-- <button (click)="clickBoss()">Get first 5 games</button> -->
-  <button (click)="logIn()">Log in boss</button>
-  <button *ngIf="isAuthenticated" (click)="addGame()">Adauga un Joc</button>
-  <button (click)="exportCSV()">Export CSV</button>
-  <button (click)="goToGames()">Go to Games page</button>
-</div>
+<app-nav-bar></app-nav-bar>
+<br>
 
-<br />
-<!-- FORM -->
-
-<div class="container">
+<div *ngIf="isLoaded && searchForm" class="container">
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <!-- <label for="search">Search:</label> -->
-    <input
-      type="text"
-      id="search"
-      name="search"
-      placeholder="Search"
-      #filter
-      formControlName="search"
-    />
+    <input type="text" id="search" name="search" placeholder="Search" #filter />
     <button class="primary" type="button" (click)="filterResults(filter.value)">
       Search Bossule
     </button>
     <br /><br />
 
-    <!-- <h4>Basic mat-select</h4> -->
     <mat-form-field>
       <mat-label>Genre</mat-label>
       <mat-select
@@ -42,19 +24,22 @@
     <label for="slider">Price:</label>
     <br />
     <mat-slider
-      formControlName="sliderValue"
       [min]="minPrice"
       [max]="maxPrice"
       step="1"
       discrete
       [displayWith]="formatLabel"
+      (change)="onSliderChange()"
     >
-      <input [value]="minPrice" matSliderStartThumb />
-      <input [value]="maxPrice" matSliderEndThumb />
+      <!-- {{searchForm.controls['startThumb'].value}}
+    {{searchForm.controls['endThumb'].value}} -->
+      <input
+        formControlName="startThumb"
+        [value]="searchForm.controls['startThumb'].value"
+        matSliderStartThumb
+      />
+      <input formControlName="endThumb" [value]="maxPrice" matSliderEndThumb />
     </mat-slider>
-    <br />
-    <button>Subnmitttttttt</button>
-
     <button class="primary" type="button" (click)="ascendingSort()">
       Sort Crescator
     </button>
@@ -62,7 +47,9 @@
       Sort Descrescator
     </button>
   </form>
-</div>
 
-<!-- FORM -->
-<app-game-card [cardDataArray]="firstFiveGames"></app-game-card>
+  <button (click)="exportFilteredCSV()">Export CSV Filtrat Boss</button>
+  <button (click)="resetFilter()">Reset Filter</button>
+</div>
+<br />
+<app-game-card [cardDataArray]="currentGames"></app-game-card>

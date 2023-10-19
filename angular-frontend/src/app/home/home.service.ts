@@ -30,8 +30,8 @@ export class HomeService {
     }
   }
 
-  exportCSV() {
-    this.http.get(apiBaseUrl + '/game/export').subscribe({
+  async exportCSV() {
+    await this.http.get(apiBaseUrl + '/game/export').subscribe({
       next: (data) => {
         console.log('A mers exportul varule');
       },
@@ -39,5 +39,25 @@ export class HomeService {
         alert('You are unathorized boss');
       },
     });
+  }
+
+  exportFilteredCSV(currentGames : Game[]) {
+    this.http.post(apiBaseUrl + '/game/export-filtered', currentGames).subscribe({
+      next: (data) => {
+        console.log('A mers exportul filtrat varule');
+      },
+      error: (error) => {
+        alert('You are unathorized boss');
+      },
+    });
+  }
+
+  checkAuthentication() {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

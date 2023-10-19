@@ -1,6 +1,61 @@
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+form {
+  width: 50%; /* Lățimea dorită a form-ului */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+input,
+button,
+mat-select,
+mat-slider {
+  margin: 5px 5px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Stilizare pentru mat-slider (Angular Material) */
+mat-slider {
+  width: 100%;
+}
+
+/* Stilizare pentru mat-form-field (Angular Material) */
+mat-form-field {
+  width: 100%;
+}
+
+/* Stilizare pentru mat-select (Angular Material) */
+mat-select {
+  width: 100%;
+}
+/* Stilizare pentru input-uri */
+input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 16px;
+}
+
+/* Stilizare pentru input la focus */
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NavBarComponent } from '../core/nav-bar/nav-bar.component';
 
 const routes: Routes = [
   { path: '', component: GameCardComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
     MatIconModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    NavBarComponent,
   ],
   exports: [GameCardComponent, MatIconModule],
 })

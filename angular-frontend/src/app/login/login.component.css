@@ -1,0 +1,41 @@
+/* Stilizare pentru container */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  /* Stilizare pentru etichetele de câmp */
+  label {
+    font-weight: bold;
+  }
+  
+  /* Stilizare pentru input-uri */
+  input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  /* Stilizare pentru butonul "Trimite" */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Stilizare pentru buton la hover */
+  button:hover {
+    background-color: #0056b3; /* Culoare mai închisă la hover */
+  }
+  
