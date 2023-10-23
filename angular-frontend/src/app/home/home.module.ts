@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { NavBarComponent } from '../core/nav-bar/nav-bar.component';
 
-const routes: Routes = [{ path: 'home', component: HomeComponent }];
+const routes: Routes = [{ path: '', component: HomeComponent }];
 
 @NgModule({
   declarations: [HomeComponent],

@@ -1,7 +1,6 @@
 <ul>
-    <li><a href="/home">Home</a></li>
-    <li><a *ngIf="isAuthenticated" href="/games/add-game">Add Game</a></li>
-    <!-- <li><a (click)="exportCSV()">Export CSV</a></li> -->
-    <li style="float:right"><a *ngIf="!isAuthenticated" class="active" href="/login">Log In</a></li>
-    <li style="float:right"><a *ngIf="isAuthenticated" class="active" (click)="logOut()">Log Out</a></li>
-  </ul>
+  <li><a href="/home" class="leftie">Home</a></li>
+  <li><a *ngIf="isAuthenticated" class="leftie" href="/games/add-game">Add Game</a></li>
+  <li><a *ngIf="!isAuthenticated" class="rightie" href="/login">Log In</a></li>
+  <li><a *ngIf="isAuthenticated" class="rightie" (click)="logOut()">Log Out</a></li>
+</ul>

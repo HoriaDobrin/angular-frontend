@@ -13,12 +13,13 @@ export class HomeComponent implements OnInit {
   isLoaded: boolean = false;
   minPrice: number = 10000000;
   maxPrice: number = 0;
+
   searchInput: string = '';
   filteredGenres: string[] = [];
+  selectedGenre: string = '';
 
   searchForm: FormGroup | undefined;
 
-  selectedGenre: string = '';
   allGames: Game[] = [];
   currentGames: Game[] = [];
 
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-    this.loadFormConfig();
+    // this.loadFormConfig();
   }
 
   async ngOnInit(): Promise<void> {
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
     return `${value}`;
   }
 
-  async loadFormConfig() {
+  async loadFormConfig(): Promise<void> {
     this.allGames = await this.homeService.getAllGames();
 
     this.currentGames = await this.homeService.getFirstFiveGames();
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit {
     this.filteredGenres = this.getUniqueGenres(this.allGames);
   }
 
-  getUniqueGenres(gamesArray: Game[]): string[] {
+  private getUniqueGenres(gamesArray: Game[]): string[] {
     const uniqueSet = new Set(gamesArray.map((game) => game.genre));
 
     const uniqueGenres = Array.from(uniqueSet);
@@ -66,7 +67,7 @@ export class HomeComponent implements OnInit {
     return uniqueGenres;
   }
 
-  setMinMaxSlider(gamesArray: Game[]) {
+  private setMinMaxSlider(gamesArray: Game[]) {
     for (let index = 0; index < gamesArray.length; index++) {
       if (gamesArray[index].price > this.maxPrice) {
         this.maxPrice = gamesArray[index].price;
@@ -163,10 +164,6 @@ export class HomeComponent implements OnInit {
 
   exportCSV() {
     this.homeService.exportCSV();
-  }
-
-  goToGames() {
-    this.router.navigate(['/games/add-game']);
   }
 
   exportFilteredCSV() {

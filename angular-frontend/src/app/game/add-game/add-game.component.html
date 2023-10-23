@@ -1,10 +1,10 @@
 <app-nav-bar></app-nav-bar>
 <br>
 <div class="container">
-  <h2>Adăugare Joc</h2>
+  <h2>Add game</h2>
   <form [formGroup]="gameForm" (ngSubmit)="submit()">
     <div class="form-group">
-      <label for="name">Nume:</label>
+      <label for="name">Name</label>
       <input
         type="text"
         id="name"
@@ -13,7 +13,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="genre">Gen:</label>
+      <label for="genre">Genre</label>
       <input
         type="text"
         id="genre"
@@ -22,7 +22,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="price">Preț:</label>
+      <label for="price">Price</label>
       <input
         type="number"
         id="price"
@@ -31,7 +31,7 @@
       />
     </div>
     <button type="submit" [disabled]="!gameForm.valid" class="btn btn-primary">
-      Adaugă Joc
+      Add Game
     </button>
   </form>
 </div>

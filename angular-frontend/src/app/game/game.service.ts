@@ -11,8 +11,19 @@ import { Router } from '@angular/router';
 export class GameService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  getAllGames() {
-    this.http.get(apiBaseUrl + '/game').subscribe({
+  async getGameById(id: string): Promise<Game> {
+    const game = (await firstValueFrom(
+      this.http.get(apiBaseUrl + '/game/' + id)
+    )) as Game;
+
+    if (game) {
+      return game;
+    }
+    throw new Error('Game could not be found');
+  }
+
+  async getAllGames(): Promise<void> {
+    await this.http.get(apiBaseUrl + '/game').subscribe({
       next: (data) => {
         if (Array.isArray(data)) {
           console.log(typeof data);
@@ -21,7 +32,7 @@ export class GameService {
         console.log(data);
       },
       error: (error) => {
-        console.log(error);
+        alert(error);
       },
     });
   }
@@ -41,11 +52,10 @@ export class GameService {
     }
   }
 
-  async deleteGame(cardData: Game) {
+  async deleteGame(cardData: Game): Promise<void> {
     console.log(apiBaseUrl + '/game/' + cardData.id);
-    this.http.delete(apiBaseUrl + '/game/' + cardData.id).subscribe({
+    await this.http.delete(apiBaseUrl + '/game/' + cardData.id).subscribe({
       next: (data) => {
-        // console.log('Data' + data);
         window.location.reload();
       },
       error: (error) => {
@@ -54,8 +64,8 @@ export class GameService {
     });
   }
 
-  async addGame(cardData: Game) {
-    this.http.post(apiBaseUrl + '/game', cardData).subscribe({
+  async addGame(cardData: Game): Promise<void> {
+    await this.http.post(apiBaseUrl + '/game', cardData).subscribe({
       next: (data) => {
         console.log('A mers sefule');
         window.location.reload();
@@ -66,5 +76,25 @@ export class GameService {
       },
     });
     this.router.navigate(['/home']);
+  }
+
+  async updateGame(cardData: Game): Promise<void> {
+    const gameWithoutId = {
+      name: cardData.name,
+      genre: cardData.genre,
+      price: cardData.price,
+    };
+
+    await this.http
+      .put(apiBaseUrl + '/game/' + cardData.id, gameWithoutId)
+      .subscribe({
+        next: (data) => {
+          window.location.reload();
+        },
+        error: (error) => {
+          console.log(error);
+          alert('Something went wrong..');
+        },
+      });
   }
 }

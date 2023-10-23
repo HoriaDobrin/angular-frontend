@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthResponse } from './authResponse.interface';
 import { Observable } from 'rxjs';
+import { UserCredentials } from '../models/login-credentials.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,9 @@ import { Observable } from 'rxjs';
 export class LoginService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  signIn(email: string, password: string) {
-    const userObj = {
-      email,
-      password,
-    };
-
+  signIn(userCredentials: UserCredentials) {
     this.http
-      .post<AuthResponse>(apiBaseUrl + '/user/login', userObj)
+      .post<AuthResponse>(apiBaseUrl + '/user/login', userCredentials)
       .subscribe({
         next: (data: { accessToken: string }) => {
           localStorage.setItem('access_token', data.accessToken);

@@ -1,32 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { Game } from 'src/app/models/game.model';
 import { GameService } from '../game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-card',
   templateUrl: './game-card.component.html',
-  styleUrls: ['./game-card.component.css'], 
+  styleUrls: ['./game-card.component.css'],
 })
 export class GameCardComponent {
-  constructor(private gameService: GameService) {
-    // this.loadFirstFiveGames();
-  }
-  // cardDataArray : Game[] = this.gameService.getFirstFiveGames();
-  @Input() cardDataArray: Game[] = []; 
+  constructor(private gameService: GameService, private router: Router) {}
+  @Input() cardDataArray: Game[] = [];
 
-  // async loadFirstFiveGames() {
-  //   try {
-  //     this.cardDataArray = await this.gameService.getFirstFiveGames();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  deleteCard(cardData: Game) {
+  deleteGame(cardData: Game) {
     this.gameService.deleteGame(cardData);
   }
 
-  // addCard(cardData: Game){
-  //   this.gameService.addGame(cardData);
-  // }
+  updateGame(cardDataId: string) {
+    console.log(cardDataId);
+
+    this.router.navigate(['games/update-game', cardDataId]);
+  }
 }

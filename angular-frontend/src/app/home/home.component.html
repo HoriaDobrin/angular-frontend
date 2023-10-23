@@ -5,16 +5,13 @@
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <input type="text" id="search" name="search" placeholder="Search" #filter />
     <button class="primary" type="button" (click)="filterResults(filter.value)">
-      Search Bossule
+      Search
     </button>
     <br /><br />
 
     <mat-form-field>
       <mat-label>Genre</mat-label>
-      <mat-select
-        [(value)]="selectedGenre"
-        (valueChange)="filterByGenre(selectedGenre)"
-      >
+      <mat-select [(value)]="selectedGenre" (valueChange)="filterByGenre(selectedGenre)">
         <mat-option *ngFor="let genre of filteredGenres" [value]="genre">
           {{ genre }}
         </mat-option>
@@ -23,21 +20,11 @@
     <br />
     <label for="slider">Price:</label>
     <br />
-    <mat-slider
-      [min]="minPrice"
-      [max]="maxPrice"
-      step="1"
-      discrete
-      [displayWith]="formatLabel"
-      (change)="onSliderChange()"
-    >
+    <mat-slider [min]="minPrice" [max]="maxPrice" step="1" discrete [displayWith]="formatLabel"
+      (change)="onSliderChange()">
       <!-- {{searchForm.controls['startThumb'].value}}
     {{searchForm.controls['endThumb'].value}} -->
-      <input
-        formControlName="startThumb"
-        [value]="searchForm.controls['startThumb'].value"
-        matSliderStartThumb
-      />
+      <input formControlName="startThumb" [value]="minPrice" matSliderStartThumb />
       <input formControlName="endThumb" [value]="maxPrice" matSliderEndThumb />
     </mat-slider>
     <button class="primary" type="button" (click)="ascendingSort()">

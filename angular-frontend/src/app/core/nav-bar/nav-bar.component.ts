@@ -13,12 +13,9 @@ import { HomeService } from 'src/app/home/home.service';
 export class NavBarComponent implements OnInit {
   isAuthenticated: boolean = false;
   constructor(private homeService: HomeService, private router: Router) {}
+
   ngOnInit(): void {
     this.isAuthenticated = this.homeService.checkAuthentication();
-  }
-
-  exportCSV() {
-    this.homeService.exportCSV();
   }
 
   logOut() {

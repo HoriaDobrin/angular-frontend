@@ -11,7 +11,9 @@ export class HomeService {
   constructor(private http: HttpClient) {}
 
   async getAllGames(): Promise<Game[]> {
-    const games =  await firstValueFrom(this.http.get(apiBaseUrl + '/game')) as Game[];
+    const games = (await firstValueFrom(
+      this.http.get(apiBaseUrl + '/game')
+    )) as Game[];
     return games;
   }
 
@@ -41,15 +43,17 @@ export class HomeService {
     });
   }
 
-  exportFilteredCSV(currentGames : Game[]) {
-    this.http.post(apiBaseUrl + '/game/export-filtered', currentGames).subscribe({
-      next: (data) => {
-        console.log('A mers exportul filtrat varule');
-      },
-      error: (error) => {
-        alert('You are unathorized boss');
-      },
-    });
+  async exportFilteredCSV(currentGames: Game[]) {
+    await this.http
+      .post(apiBaseUrl + '/game/export-filtered', currentGames)
+      .subscribe({
+        next: (data) => {
+          console.log('A mers exportul filtrat varule');
+        },
+        error: (error) => {
+          alert('You are unathorized boss');
+        },
+      });
   }
 
   checkAuthentication() {

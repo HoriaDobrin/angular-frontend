@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
+import { UserCredentials } from '../models/login-credentials.dto';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,10 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
-      console.log(formData);
-      this.loginService.signIn(formData.email, formData.password);
+      const formData: UserCredentials = this.loginForm.value;
+      this.loginService.signIn(formData);
+    } else {
+      alert('Please insert valid credentials');
     }
   }
 }
